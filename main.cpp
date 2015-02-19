@@ -9,18 +9,30 @@ using namespace std;
 //Suma a (dado) y b (dado) y almacena el resultado en la direccion de memoria donde apunta resultado (dado)
 void sumar(int a, int b, int *resultado)
 {
+    *resultado = a+b;
 }
 
 //Devuelve el elemento mayor del arreglo (dado) con el tamano dado
 template <typename T>
 T getMax(T*arreglo, int tamano)
 {
+    T mayor = arreglo[0];
+    for (int i = 0; i<tamano; i++){
+        if (arreglo[i] > mayor)
+            mayor = arreglo[i];
+    }
+    return mayor;
 }
 
 //Devuelve el factorial de num (dado)
 //Definicion del factorial https://en.wikipedia.org/wiki/Factorial
 int factorial(int num)
 {
+    int fact = 1;
+    for (int i = 1; i<=num; i++){
+        fact*=i;
+    }
+    return fact;
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -49,6 +61,51 @@ class Usuario
 public:
     string nombre;
     string pass;
+
+    Usuario(){
+
+    }
+
+    virtual string getMensaje(){
+        return "";
+    }
+
+    virtual bool soyAdministrador() = 0;
+};
+
+class UsuarioNormal : public Usuario{
+public:
+    string mensaje = "";
+
+    UsuarioNormal(string nombre, string pass, string mensaje){
+        this->nombre = nombre;
+        this->pass = pass;
+        this->mensaje = mensaje;
+    }
+
+    string getMensaje(){
+        return mensaje;
+    }
+
+    bool soyAdministrador(){
+        return false;
+    }
+
+    bool operator==(string mensaje){
+        return this->mensaje == mensaje;
+    }
+};
+
+class UsuarioAdministrador : public Usuario{
+public:
+    UsuarioAdministrador(string nombre, string pass){
+        this->nombre = nombre;
+        this->pass = pass;
+    }
+
+    bool soyAdministrador(){
+        return true;
+    }
 };
 
 
@@ -149,86 +206,86 @@ void evaluar2()
 {
     double nota = 0;
 
-//    cout<<"Prueba 1 - Constructor de UsuarioNormal:\t";
-//
-//    UsuarioNormal *un1 = new UsuarioNormal("lolo","secreto","estoy feliz");
-//    UsuarioNormal *un2 = new UsuarioNormal("lola","secreto777","tomandome una selfie");
-//    if(un1->nombre == "lolo"
-//        && un1->pass == "secreto"
-//        && un1->mensaje == "estoy feliz"
-//        && un2->nombre == "lola"
-//        && un2->pass == "secreto777"
-//        && un2->mensaje == "tomandome una selfie"
-//        )
-//    {
-//        nota+=2;
-//        cout<<"Correcto"<<endl;
-//    }else
-//    {
-//        cout<<"Incorrecto"<<endl;
-//    }
-//
-//    cout<<"Prueba 2 - Constructor de UsuarioAdministrador:\t";
-//    UsuarioAdministrador *ua1 = new UsuarioAdministrador("punpun", "admin");
-//    UsuarioAdministrador *ua2 = new UsuarioAdministrador("rufo", "campeon007");
-//    if(ua1->nombre == "punpun"
-//        && ua1->pass == "admin"
-//        && ua2->nombre == "rufo"
-//        && ua2->pass == "campeon007"
-//        )
-//    {
-//        nota+=2;
-//        cout<<"Correcto"<<endl;
-//    }else
-//    {
-//        cout<<"Incorrecto"<<endl;
-//    }
-//
-//    cout<<"Prueba 3 - Funcion virtual soyAdministrador():\t";
-//    Usuario *u1 = new UsuarioNormal("ponpon","secreto23","escribe lo que estas pensando");
-//    Usuario *u2 = new UsuarioAdministrador("punpun","amoaponpon22");
-//    Usuario *u3 = new UsuarioAdministrador("punpun","amoaponpon22");
-//    Usuario *u4 = new UsuarioNormal("ponpon","secreto23","escribe lo que estas pensando");
-//    if(!u1->soyAdministrador()
-//        && u2->soyAdministrador()
-//        && u3->soyAdministrador()
-//        && !u4->soyAdministrador()
-//        )
-//    {
-//        nota+=2;
-//        cout<<"Correcto"<<endl;
-//    }else
-//    {
-//        cout<<"Incorrecto"<<endl;
-//    }
-//
-//    cout<<"Prueba 4 - Funcion virtual pura getMensaje():\t";
-//    if(u1->getMensaje() == "escribe lo que estas pensando"
-//        && u2->getMensaje() == ""
-//        && u3->getMensaje() == ""
-//        && u4->getMensaje() == "escribe lo que estas pensando"
-//        )
-//    {
-//        nota+=2;
-//        cout<<"Correcto"<<endl;
-//    }else
-//    {
-//        cout<<"Incorrecto"<<endl;
-//    }
-//
-//    cout<<"Prueba 5 - operator==:\t\t\t\t";
-//    if(*(UsuarioNormal*)u1 == "escribe lo que estas pensando"
-//        && *(UsuarioNormal*)u4 == "escribe lo que estas pensando"
-//        && *(UsuarioNormal*)un1 == "estoy feliz"
-//        && *(UsuarioNormal*)un2 == "tomandome una selfie"
-//        )
-//    {
-//        nota+=2;
-//        cout<<"Correcto"<<endl;
-//    }else
-//    {
-//        cout<<"Incorrecto"<<endl;
-//    }
+    cout<<"Prueba 1 - Constructor de UsuarioNormal:\t";
+
+    UsuarioNormal *un1 = new UsuarioNormal("lolo","secreto","estoy feliz");
+    UsuarioNormal *un2 = new UsuarioNormal("lola","secreto777","tomandome una selfie");
+    if(un1->nombre == "lolo"
+        && un1->pass == "secreto"
+        && un1->mensaje == "estoy feliz"
+        && un2->nombre == "lola"
+        && un2->pass == "secreto777"
+        && un2->mensaje == "tomandome una selfie"
+        )
+    {
+        nota+=2;
+        cout<<"Correcto"<<endl;
+    }else
+    {
+        cout<<"Incorrecto"<<endl;
+    }
+
+    cout<<"Prueba 2 - Constructor de UsuarioAdministrador:\t";
+    UsuarioAdministrador *ua1 = new UsuarioAdministrador("punpun", "admin");
+    UsuarioAdministrador *ua2 = new UsuarioAdministrador("rufo", "campeon007");
+    if(ua1->nombre == "punpun"
+        && ua1->pass == "admin"
+        && ua2->nombre == "rufo"
+        && ua2->pass == "campeon007"
+        )
+    {
+        nota+=2;
+        cout<<"Correcto"<<endl;
+    }else
+    {
+        cout<<"Incorrecto"<<endl;
+    }
+
+    cout<<"Prueba 3 - Funcion virtual soyAdministrador():\t";
+    Usuario *u1 = new UsuarioNormal("ponpon","secreto23","escribe lo que estas pensando");
+    Usuario *u2 = new UsuarioAdministrador("punpun","amoaponpon22");
+    Usuario *u3 = new UsuarioAdministrador("punpun","amoaponpon22");
+    Usuario *u4 = new UsuarioNormal("ponpon","secreto23","escribe lo que estas pensando");
+    if(!u1->soyAdministrador()
+        && u2->soyAdministrador()
+        && u3->soyAdministrador()
+        && !u4->soyAdministrador()
+        )
+    {
+        nota+=2;
+        cout<<"Correcto"<<endl;
+    }else
+    {
+        cout<<"Incorrecto"<<endl;
+    }
+
+    cout<<"Prueba 4 - Funcion virtual pura getMensaje():\t";
+    if(u1->getMensaje() == "escribe lo que estas pensando"
+        && u2->getMensaje() == ""
+        && u3->getMensaje() == ""
+        && u4->getMensaje() == "escribe lo que estas pensando"
+        )
+    {
+        nota+=2;
+        cout<<"Correcto"<<endl;
+    }else
+    {
+        cout<<"Incorrecto"<<endl;
+    }
+
+    cout<<"Prueba 5 - operator==:\t\t\t\t";
+    if(*(UsuarioNormal*)u1 == "escribe lo que estas pensando"
+        && *(UsuarioNormal*)u4 == "escribe lo que estas pensando"
+        && *(UsuarioNormal*)un1 == "estoy feliz"
+        && *(UsuarioNormal*)un2 == "tomandome una selfie"
+        )
+    {
+        nota+=2;
+        cout<<"Correcto"<<endl;
+    }else
+    {
+        cout<<"Incorrecto"<<endl;
+    }
 
     cout<<endl<<"Nota: "<<nota<<"/10"<<endl;
 }
